@@ -12,6 +12,7 @@ app.get('/check-price', async (req, res) => {
 
   try {
     const Url = req.query.url;
+    const tgtPrice = req.query.tgtPrice;
     browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(Url);
@@ -24,7 +25,16 @@ app.get('/check-price', async (req, res) => {
 
     if (currentPriceString) {
       const currentPriceNumber = parseFloat(currentPriceString.replace(',', ''));
-      res.json({ price: currentPriceNumber });
+      var result ='';
+      if(currentPriceNumber<tgtPrice){
+        result = "Current Price is less than target price"
+      } else if(currentPriceNumber>tgtPrice){
+        result = "Current Price is more than target price"
+      }
+      else{
+        result = "Current Price is equal to target price"
+      }
+      res.json({ price: currentPriceNumber, result });
     } else {
       res.status(404).json({ error: 'Price element not found on the page.' });
     }
