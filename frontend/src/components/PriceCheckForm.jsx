@@ -6,7 +6,7 @@ function PriceCheckForm() {
   const [productUrl, setProductUrl] = useState('');
   const [targetPrice, setTargetPrice] = useState('');
   const [currentPrice, setCurrentPrice] = useState('');
-  const [result, Setresult] = useState('');
+  const [result, SetResult] = useState('');
 
 
   const handleCheckPrice = async () => {
@@ -14,17 +14,13 @@ function PriceCheckForm() {
       const response = await fetch(`http://localhost:3000/check-price?url=${encodeURIComponent(productUrl)}&tgtPrice=${targetPrice}`);
 
       
-      console.log(response.status); // Log the response status code
-      
       if (response.ok) {
-        const text = await response.text(); // Get the response content as text
-        console.log(text); // Log the response content
+        const text = await response.text();
   
         try {
-          const data = JSON.parse(text); 
-          console.log(data)// Attempt to parse the content as JSON
+          const data = JSON.parse(text);
           setCurrentPrice(data.price);
-          Setresult(data.result);
+          SetResult(data.result);
         } catch (jsonError) {
           console.error('JSON Parsing Error:', jsonError);
         }
